@@ -1,0 +1,44 @@
+# Local infra for service-share-link.
+# Values mirror service-share-link/.env:
+#   DATABASE_URL=postgres://postgres:postgres@localhost:5432/share_link?sslmode=disable
+#   HOST_REDIS=localhost:6379  PASSWORD_REDIS=  DB_REDIS=0
+
+name: youpass-infra
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: share-link-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: share_link
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d share_link"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:8-alpine
+    container_name: share-link-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  postgres-data:
+  redis-data:

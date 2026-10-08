@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+
+# Build output
+bin/
+dist/
+dist-ssr/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Logs
+logs/
+*.log
+
+# Test binaries and coverage
+*.test
+*.out
+coverage/
+coverage.*
+*.coverprofile
+
+# Go workspace files
+go.work
+go.work.sum
+
+# Local config (may hold credentials)
+.env
+.env.*
+!.env.example
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.sw?
